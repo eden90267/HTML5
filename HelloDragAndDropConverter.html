@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Converter</title>
+		<style type="text/css">
+			div:first-of-type {
+				width: 300px;
+				height: 100px;
+				padding: 10px;
+				background-color: blue;
+				color: white;
+				font-size: 24px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="myDiv">
+		  Come here.
+		</div>
+		<br>
+		<textarea id="myTextarea" cols="50" rows="10"></textarea>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var myDiv = $("#myDiv");
+			var myTextarea = $("#myTextarea");
+			myDiv.on("dragenter", function(e) {
+				myDiv.css("background-color", "red");
+				myDiv.text("Drop it");
+			});
+			myDiv.on("dragleave", function(e) {
+				myDiv.css("background-color", "blue");
+				myDiv.text("Come here.");
+			});
+			myDiv.on("dragover", function(e) {
+				e.preventDefault(); // 避免瀏覽器直接打開檔案
+			});
+			myDiv.on("drop", function(e) {
+				e.preventDefault(); // 避免瀏覽器直接打開檔案
+				var files = e.originalEvent.dataTransfer.files;
+				if (files.length === 0) {
+					return false;
+				}
+				convert(files[0]);
+			});
+			
+			function convert(file) {
+				if (!file.type.match(/text.*/)) {
+					alert("Not text file!!");
+					return false;
+				}
+				var reader= new FileReader();
+				
+				reader.onloadend=function() {
+					var s = reader.result;
+					s = s.replace(/Ryan/g, "萊恩");
+					s = s.replace(/David/g, "大衛");
+					s = s.replace(/John/g, "約翰");
+					
+					myTextarea.html("原文：\n" + reader.result + "\n---\n翻譯：\n" + s);
+				}
+				
+				reader.readAsText(file);
+				
+				
+			}
+		</script>
+	</body>
+</html>

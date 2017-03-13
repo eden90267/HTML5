@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Worker</title>
+	</head>
+
+	<body>
+		<div id="resultDiv">
+		  計算中
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			var worker = new Worker("sosu-worker.js");
+			worker.onmessage = function(event) {
+				document.getElementById("resultDiv").innerHTML = event.data;
+			}
+		</script>
+	</body>
+</html>
